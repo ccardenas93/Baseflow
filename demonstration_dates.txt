@@ -1,0 +1,9 @@
+Here select the range in data which you like to extract baseflow
+
+Please enter the start date (DD-MM-YYYY HH:MM): 01-01-2016 00:00
+
+Please enter the end date (DD-MM-YYYY HH:MM): 28-02-2016 23:55
+
+Initial date for average calculation (DD-MM-YYYY HH:MM): 19-01-2016 00:00
+
+Final date for average calculation (DD-MM-YYYY HH:MM): 21-01-2016 23:55

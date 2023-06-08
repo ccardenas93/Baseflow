@@ -1,0 +1,12 @@
+Flow chart of the code for mermaid.live
+
+graph LR
+    A[<font size=5>Start] --> B{<font size=6>Input Station Code <br/>and <br/>Modeled Station Code}
+    B --> C{<font size=6>Input Dates <br/>for <br/>Base Flow <br/>Calculation}
+    C --> D{<font size=5>Input Dates <br/>for <br/>Average Calculation}
+    D --> F{<font size=5>Calculate Base Flow <br/>and<br/> Average Discharge}
+    F --> G{<font size=5>Calculate <br/>another <br/>period?}
+   
+    G -- <font size=5>Yes ---> C
+    G -- <font size=5>No --> H{<font size=5> Append <br/>and Plot<br/> Data}
+    H --> I[<font size=5>End]
