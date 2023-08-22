@@ -22,7 +22,7 @@ def process_period(data, start_date, end_date, avg_start_date, avg_end_date, sta
     average_data['time'] = average_data['date'].dt.time
     
     # Group by time and calculate the average of the station column
-    average_df = average_data.groupby('time')[station_code].mean().reset_index()
+    average_df = average_data.groupby('time')[station_code].max().reset_index()
     
     # Rename the station code column to 'Average'
     average_df.rename(columns={station_code: 'Average'}, inplace=True)
@@ -67,10 +67,12 @@ def process_period(data, start_date, end_date, avg_start_date, avg_end_date, sta
     return station_without_baseflow
 
 # Read the CSV file
-data = pd.read_csv('9modeledStns.csv')
+
+# Read the CSV file
+data = pd.read_csv('C:/Users/carsk/OneDrive - KU Leuven/Thesis/Revised_RESULTS/Baseflow/For_baseflow_extraction.csv')
 
 # Convert the 'date' column to datetime
-data['date'] = pd.to_datetime(data['date'], format='%d/%m/%Y %H:%M')
+data['date'] = pd.to_datetime(data['date'], format='%Y-%m-%d %H:%M:%S')
 
 # Ask the user for the station code
 station_code = input('Please enter the station code: ').upper()
@@ -138,3 +140,23 @@ else:
 
     # Save the final DataFrame as a CSV file
     final_df.to_csv('output.csv')
+
+
+final_df_resampled = final_df.resample('1H').mean()
+final_df_resampled.to_csv('1H_resampl.csv')
+
+ # Plotting the data using matplotlib
+plt.figure(figsize=(12, 6))
+plt.plot(final_df_resampled.index, final_df_resampled[f"{station_code}_without_baseflow"], label=f"{station_code}_without_baseflow")
+plt.plot(final_df_resampled.index, final_df_resampled[model_station_code], label=model_station_code)
+plt.legend()
+plt.title('Time series plot of station data')
+plt.xlabel('Date')
+plt.ylabel('Discharge')
+plt.show()
+ # Plotting the data using plotly
+fig = px.line(final_df_resampled.reset_index(), x='date', y=[f"{station_code}_without_baseflow", model_station_code])
+fig.show()
+
+# Save the plot as an HTML file
+pio.write_html(fig, 'resampled.html')
